@@ -5,12 +5,11 @@ namespace TBolier\RethinkQL\Connection\Socket;
 
 use Psr\Http\Message\StreamInterface;
 use TBolier\RethinkQL\Connection\OptionsInterface;
-use TBolier\RethinkQL\Connection\Socket\Exception;
 
 class Socket implements StreamInterface
 {
     /**
-     * @var resource
+     * @var resource|null
      */
     private $stream;
 
@@ -68,8 +67,10 @@ class Socket implements StreamInterface
 
     public function close(): void
     {
-        fclose($this->stream);
-        $this->stream = null;
+        if (null !== $this->stream) {
+            fclose($this->stream);
+            $this->stream = null;
+        }
     }
 
     public function detach(): void

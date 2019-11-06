@@ -33,7 +33,7 @@ class Handshake implements HandshakeInterface
     private $password;
 
     /**
-     * @var string
+     * @var int
      */
     private $protocolVersion = 0;
 
@@ -85,12 +85,7 @@ class Handshake implements HandshakeInterface
 
                 $this->checkResponse($handshakeResponse);
 
-                try {
-                    $msg = $this->nextMessage($handshakeResponse);
-                } catch (Exception $e) {
-                    $stream->close();
-                    throw $e;
-                }
+                $msg = $this->nextMessage($handshakeResponse);
 
                 if ($msg === 'successful') {
                     break;
