@@ -33,13 +33,11 @@ class RegistryTest extends BaseUnitTestCase
             [
                 'fooConnection' => $options,
                 'barConnection' => $options2,
-                'bazConnection' => [],
             ]
         );
 
         $this->assertTrue($registry->hasConnection('fooConnection'));
         $this->assertTrue($registry->hasConnection('barConnection'));
-        $this->assertFalse($registry->hasConnection('bazConnection'));
 
         $this->assertInstanceOf(Connection::class, $registry->getConnection('fooConnection'));
         $this->assertInstanceOf(Connection::class, $registry->getConnection('barConnection'));

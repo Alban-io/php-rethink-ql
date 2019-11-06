@@ -38,17 +38,19 @@ Create the Rethink driver object by injecting a `Connection` object into it.
 <?php
 use TBolier\RethinkQL\Rethink;
 use TBolier\RethinkQL\Connection\Registry;
+use TBolier\RethinkQL\Connection\Options;
 
 $connections = [
-    'default_connection' => [
-        'host' => 'localhost',
+    'default_connection' => new Options([
+        'hostname' => 'localhost',
         'port' => 28015,
-        'default_db' => 'demoDB',
+        'dbname' => 'demoDB',
         'user' => 'demo',
         'password' => 'demo',
         'timeout' => 5,
         'timeout_stream' => 10,
-    ],
+        'ssl' => false,
+    ]),
 ];
 
 $registry = new Registry($connections);

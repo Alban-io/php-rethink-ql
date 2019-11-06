@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace TBolier\RethinkQL\Connection;
 
+use InvalidArgumentException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -14,23 +15,21 @@ use TBolier\RethinkQL\Types\VersionDummy\Version;
 class Registry implements RegistryInterface
 {
     /**
-     * @var ConnectionInterface[]
+     * @var array<string, ConnectionInterface>
      */
     private $connections;
 
     /**
-     * @throws ConnectionException
+     * @throws InvalidArgumentException
      */
-    public function __construct(array $connections = null)
+    public function __construct(array $connections = [])
     {
-        if ($connections) {
-            foreach ($connections as $name => $options) {
-                if (!$options instanceof OptionsInterface) {
-                    continue;
-                }
-
-                $this->addConnection($name, $options);
+        foreach ($connections as $name => $options) {
+            if (!$options instanceof OptionsInterface) {
+                throw new InvalidArgumentException('Connection option must be implement OptionsInterface');
             }
+
+            $this->addConnection($name, $options);
         }
     }
 
